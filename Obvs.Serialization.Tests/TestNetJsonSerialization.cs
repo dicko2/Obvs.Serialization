@@ -11,6 +11,9 @@ namespace Obvs.Serialization.Tests
     public class TestNetJsonSerialization
     {
         [Test]
+#if NETCOREAPP2_0
+        [Ignore("MsgPack implementation not compatible with netcoreapp2.0")]
+#endif
         public void ShouldSerializeToNetJson()
         {
             IMessageSerializer serializer = new NetJsonMessageSerializer();
@@ -25,6 +28,9 @@ namespace Obvs.Serialization.Tests
         }
 
         [Test]
+#if NETCOREAPP2_0
+        [Ignore("MsgPack implementation not compatible with netcoreapp2.0")]
+#endif
         public void ShouldDeserializeFromNetJson()
         {
             IMessageSerializer serializer = new NetJsonMessageSerializer();

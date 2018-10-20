@@ -13,6 +13,9 @@ namespace Obvs.Serialization.Tests
     public class TestMsgPackSerialization
     {
         [Test]
+#if NETCOREAPP2_0
+        [Ignore("MsgPack implementation not compatible with netcoreapp2.0")]
+#endif
         public void ShouldSerializeToMsgPack()
         {
             IMessageSerializer serializer = new MsgPackMessageSerializer();
@@ -26,6 +29,9 @@ namespace Obvs.Serialization.Tests
         }
 
         [Test]
+#if NETCOREAPP2_0
+        [Ignore("MsgPack implementation not compatible with netcoreapp2.0")]
+#endif
         public void ShouldDeserializeFromMsgPack()
         {
             IMessageSerializer serializer = new MsgPackMessageSerializer();
