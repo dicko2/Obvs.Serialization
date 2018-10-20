@@ -1,5 +1,5 @@
 ﻿using FakeItEasy;
-using Xunit;
+using NUnit.Framework;
 using Obvs.Configuration;
 using Obvs.Serialization.ProtoBuf;
 using Obvs.Serialization.ProtoBuf.Configuration;
@@ -10,7 +10,7 @@ namespace Obvs.Serialization.Tests
     
     public class TestProtoBufSerialization
     {
-        [Fact]
+        [Test]
         public void ShouldSerializeToProtoBuf()
         {
             IMessageSerializer serializer = new ProtoBufMessageSerializer();
@@ -19,10 +19,10 @@ namespace Obvs.Serialization.Tests
             var serialize = serializer.Serialize(message);
 
             Assert.NotNull(serialize);
-            Assert.Equal(serialize.Length, 25);
+            Assert.AreEqual(serialize.Length, 25);
         }
 
-        [Fact]
+        [Test]
         public void ShouldDeserializeFromProtoBuf()
         {
             IMessageSerializer serializer = new ProtoBufMessageSerializer();
@@ -32,10 +32,10 @@ namespace Obvs.Serialization.Tests
             var serialize = serializer.Serialize(message);
             var deserialize = deserializer.Deserialize(serialize);
 
-            Assert.Equal(message, deserialize);
+            Assert.AreEqual(message, deserialize);
         }
 
-        [Fact]
+        [Test]
         public void ShouldPassInCorrectFluentConfig()
         {
             var fakeConfigurator = A.Fake<ICanSpecifyEndpointSerializers<IMessage, ICommand, IEvent, IRequest, IResponse>>();

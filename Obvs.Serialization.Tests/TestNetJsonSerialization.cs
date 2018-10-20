@@ -1,5 +1,5 @@
 ﻿using FakeItEasy;
-using Xunit;
+using NUnit.Framework;
 using Obvs.Configuration;
 using Obvs.Serialization.NetJson;
 using Obvs.Serialization.NetJson.Configuration;
@@ -10,7 +10,7 @@ namespace Obvs.Serialization.Tests
     
     public class TestNetJsonSerialization
     {
-        [Fact]
+        [Test]
         public void ShouldSerializeToNetJson()
         {
             IMessageSerializer serializer = new NetJsonMessageSerializer();
@@ -20,11 +20,11 @@ namespace Obvs.Serialization.Tests
 
 
             Assert.NotNull(serialize);
-            Assert.Contains(message.Id.ToString(), serialize);
-            Assert.Contains(message.Name, serialize);
+            StringAssert.Contains(message.Id.ToString(), serialize);
+            StringAssert.Contains(message.Name, serialize);
         }
 
-        [Fact]
+        [Test]
         public void ShouldDeserializeFromNetJson()
         {
             IMessageSerializer serializer = new NetJsonMessageSerializer();
@@ -35,10 +35,10 @@ namespace Obvs.Serialization.Tests
             var serialize = serializer.Serialize(message);
             var deserialize = deserializer.Deserialize(serialize);
 
-            Assert.Equal(message, deserialize);
+            Assert.AreEqual(message, deserialize);
         }
 
-        [Fact]
+        [Test]
         public void ShouldPassInCorrectFluentConfig()
         {
             var fakeConfigurator = A.Fake<ICanSpecifyEndpointSerializers<IMessage, ICommand, IEvent, IRequest, IResponse>>();

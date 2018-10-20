@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using FakeItEasy;
-using Xunit;
+using NUnit.Framework;
 using Obvs.Configuration;
 using Obvs.Serialization.Json;
 using Obvs.Serialization.Json.Configuration;
@@ -12,7 +12,7 @@ namespace Obvs.Serialization.Tests
 
     public class TestJsonSerialization
     {
-        [Fact]
+        [Test]
         public void JsonDeserializerFactoryShouldWork()
         {
             var factory = new JsonMessageDeserializerFactory(typeof(JsonMessageDeserializer<>));
@@ -25,7 +25,7 @@ namespace Obvs.Serialization.Tests
 
             var messageAfter = des.Deserialize(bytes);
 
-            Assert.Equal(messageBefore, messageAfter);
+            Assert.AreEqual(messageBefore, messageAfter);
         }
 
         private bool ShouldLoadAssembly(Assembly arg)
@@ -36,7 +36,7 @@ namespace Obvs.Serialization.Tests
             return true;
         }
 
-        [Fact]
+        [Test]
         public void ShouldSerializeToJson()
         {
             IMessageSerializer serializer = new JsonMessageSerializer();
@@ -45,11 +45,11 @@ namespace Obvs.Serialization.Tests
             var serialize = JsonMessageDefaults.Encoding.GetString(serializer.Serialize(message));
 
             Assert.NotNull(serialize);
-            Assert.Contains(message.Id.ToString(), serialize);
-            Assert.Contains(message.Name, serialize);
+            StringAssert.Contains(message.Id.ToString(), serialize);
+            StringAssert.Contains(message.Name, serialize);
         }
 
-        [Fact]
+        [Test]
         public void ShouldDeserializeFromJson()
         {
             IMessageSerializer serializer = new JsonMessageSerializer();
@@ -59,10 +59,10 @@ namespace Obvs.Serialization.Tests
             var serialize = serializer.Serialize(message);
             var deserialize = deserializer.Deserialize(serialize);
 
-            Assert.Equal(message, deserialize);
+            Assert.AreEqual(message, deserialize);
         }
 
-        [Fact]
+        [Test]
         public void ShouldPassInCorrectFluentConfig()
         {
             var fakeConfigurator = A.Fake<ICanSpecifyEndpointSerializers<IMessage, ICommand, IEvent, IRequest, IResponse>>();

@@ -1,6 +1,7 @@
 using System;
 using FakeItEasy;
-using Xunit;
+using NUnit.Framework;
+
 using Obvs.Configuration;
 using Obvs.Serialization.MessagePack;
 using Obvs.Serialization.MessagePack.Configuration;
@@ -11,7 +12,7 @@ namespace Obvs.Serialization.Tests
 
     public class TestMsgPackSerialization
     {
-        [Fact]
+        [Test]
         public void ShouldSerializeToMsgPack()
         {
             IMessageSerializer serializer = new MsgPackMessageSerializer();
@@ -21,10 +22,10 @@ namespace Obvs.Serialization.Tests
 
 
             Assert.NotNull(serialize);
-            Assert.Equal(serialize.Length, 20);
+            Assert.AreEqual(serialize.Length, 20);
         }
 
-        [Fact]
+        [Test]
         public void ShouldDeserializeFromMsgPack()
         {
             IMessageSerializer serializer = new MsgPackMessageSerializer();
@@ -36,12 +37,12 @@ namespace Obvs.Serialization.Tests
             var serialize = serializer.Serialize(message);
             var deserialize = deserializer.Deserialize(serialize);
 
-            Assert.Equal(message.Id, deserialize.Id);
-            Assert.Equal(message.Name, deserialize.Name);
-            Assert.Equal(message.Date, deserialize.Date);
+            Assert.AreEqual(message.Id, deserialize.Id);
+            Assert.AreEqual(message.Name, deserialize.Name);
+            Assert.AreEqual(message.Date, deserialize.Date);
         }
 
-        [Fact]
+        [Test]
         public void ShouldPassInCorrectFluentConfig()
         {
             var fakeConfigurator = A.Fake<ICanSpecifyEndpointSerializers<IMessage, ICommand, IEvent, IRequest, IResponse>>();
